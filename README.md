@@ -1,5 +1,4 @@
 ##OGA-Organelle Genome Assembly<br />
-Organelle Genome Assembly.<br />
 Copyright (C) 2016 Xiao-Jian Qu<br />
 
 ##CONTACT<br />
