@@ -10,7 +10,7 @@ Perl<br />
 Linux<br />
 
 ##General Introduction to OGA<br />
-OGA(Organelle Genome Assembly) is capable of assembling complete organelle genome using distantly related plant species, or even organelle genes as reference. Three steps will be conducted to assemble organelle genome: (1) mapping raw reads to published cp and mt genomes, then getting raw_remove_mt (raw_remove_cp) by removing mapped mt (cp) reads from raw reads, then acquiring seeds as contigs by first assembling mapped cp (mt) reads, (2) recruiting overlapped reads from raw_remove_mt (raw_remove_cp) by extending contigs, then using targetedly recruited overlapped reads as new seeds, and iterate this step until no overlapped reads are recruited, (3) second assembling recruited reads. In the end, you will get a complete circular plastome (mito-genome) when your library is large enough and sequencing depth is deep enough. Specifically, many aspects, such as sequencing quality, repeats, etc could affect final assembly. If no complete circular plastome (mito-genome) are got, you can perform mapping and assembling one or few times to fill gap. This pipeline can be applied for assembling organelle genome from enriched chloroplast DNA and total genomic DNA.<br />
+OGA(Organelle Genome Assembly) is capable of assembling complete organelle genome using distantly related species, or even organelle genes as reference. Three steps will be conducted to assemble organelle genome: (1) mapping raw reads to published cp and mt genomes, then getting raw_remove_mt (raw_remove_cp) by removing mapped mt (cp) reads from raw reads, then acquiring seeds as contigs by first assembling mapped cp (mt) reads, (2) recruiting overlapped reads from raw_remove_mt (raw_remove_cp) by extending contigs, then using targetedly recruited overlapped reads as new seeds, and iterate this step until no overlapped reads are recruited, (3) second assembling recruited reads. In the end, you will get a complete circular plastome (mito-genome) when your library is large enough and sequencing depth is deep enough. Specifically, many aspects, such as sequencing quality, repeats, etc could affect final assembly. If no complete circular plastome (mito-genome) are got, you can perform mapping and assembling one or few times to fill gap. This pipeline can be applied for assembling organelle genome from enriched chloroplast DNA and total genomic DNA.<br />
 
 ##Preparations<br />
 (1) download map software [Bowtie2](http://bowtie-bio.sourceforge.net/bowtie2/index.shtml), assemble softwares such as [spades](http://bioinf.spbau.ru/spades) or [velvet](https://github.com/dzerbino/velvet), and assembly graph visual software [bandage](https://github.com/rrwick/Bandage). And put all in PATH.<br />
@@ -43,7 +43,7 @@ Usage:
 (4) The step number of wordsize can also be set by yourself. Default value is 3. If your reads quality is not good, you can increase this value a little larger (4,5,6,...).
 
 ##Tutorial<br />
-**First**, indexing your reference (cp or mt).<br />
+**First**, indexing reference (cp or mt).<br />
 ```
 bowtie2-build cp_reference.fasta cp_reference
 bowtie2-build mt_reference.fasta mt_reference
