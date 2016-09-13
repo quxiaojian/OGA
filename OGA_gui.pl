@@ -731,21 +731,21 @@ sub run {
 			foreach my $item3 (keys %hash3) {
 				if ($hash3{$item3}==1){
 					my $item4=$item3;
-					#$item4.=" 1:N:0";
-					$item4.="1";
+					$item4.=" 1:N:0";
+					#$item4.="1";
 					my $item5=$item3;
-					#$item5.=" 2:N:0";
-					$item5.="2";
+					$item5.=" 2:N:0";
+					#$item5.="2";
 
 					$hash5{$item4}=$fq{$item4};
 					$hash5{$item5}=$fq{$item5};
 				}elsif($hash3{$item3}==2){
 					my $item6=$item3;
-					#$item6.=" 1:N:0";
-					$item6.="1";
+					$item6.=" 1:N:0";
+					#$item6.="1";
 					my $item7=$item3;
-					#$item7.=" 2:N:0";
-					$item7.="2";
+					$item7.=" 2:N:0";
+					#$item7.="2";
 
 					$hash5{$item6}=$hash4{$item6};
 					$hash5{$item7}=$hash4{$item7};
