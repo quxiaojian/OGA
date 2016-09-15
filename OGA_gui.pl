@@ -3,36 +3,33 @@ use strict;
 use Tk;
 use Data::Dumper;
 
-my ($m_help_about);
+my $mainwindow=MainWindow->new();
+$mainwindow->geometry("850x400");
+$mainwindow->title("OGA-Organelle Genome Assembly");
 
-my $mw=MainWindow->new();
-$mw->geometry("850x400");
-$mw->title("OGA-Organelle Genome Assembly");
+#create horizontal menubar
+my $menubar=$mainwindow->Frame(-relief=>"raised",-bd=>2);
+$menubar->pack(-side=>"top",-fill=>"both");
 
-##### first create the horizontal menubar
-my $mb=$mw->Frame(-relief=>"raised",-bd=>2);
-$mb->pack(-side=>"top",-fill=>"both");
+#create menubutton
+my $menu_file=$menubar->Menubutton(-text=>"File",-underline=>0);
+$menu_file->pack(-side => "left");
+my $menu_command=$menubar->Menubutton(-text=>"Command",-underline=>0);
+$menu_command->pack(-side => "left");
+my $menu_help=$menubar->Menubutton(-text=>"Help",-underline=>0);
+$menu_help->pack(-side=>"left");
 
-# now put in the menubar some menubuttons
-my $m_file=$mb->Menubutton(-text=>"File",-underline=>0);
-$m_file->pack(-side => "left");
-my $m_command=$mb->Menubutton(-text=>"Command",-underline=>0);
-$m_command->pack(-side => "left");
-my $m_help=$mb->Menubutton(-text=>"Help",-underline=>0);
-$m_help->pack(-side=>"left");
-
-#### now create the submenus
-# the file menus
-$m_file->command(-label=>"Save log",-command=>[\&save,"save"]);
-$m_file->separator();
-$m_file->command(-label=>"Exit",-underline=>1,-command=>sub{exit;});
-# the command submenus
-$m_command->command(-label=>"Run",-command=>sub{&run});
-# the help submenus
-$m_help->command(-label=>"Help",-command=>[\&help,"help"]);
+#create file submenu
+$menu_file->command(-label=>"Save log",-command=>[\&save,"save"]);
+$menu_file->separator();
+$menu_file->command(-label=>"Exit",-underline=>1,-command=>sub{exit;});
+#create command submenu
+$menu_command->command(-label=>"Run",-command=>sub{&run});
+#create help submenu
+$menu_help->command(-label=>"Help",-command=>[\&help,"help"]);
 
 
-my $frame_indir=$mw->Frame();
+my $frame_indir=$mainwindow->Frame();
 $frame_indir->pack(-expand=>1,-fill=>"both",-side=>"top");
 my $label_indir=$frame_indir->Label(-text=>"Input Directory: ",-width=>80,-anchor=>"w",-font=>"Arial 11 bold",-foreground=>"black",-relief=>"groove");
 $label_indir->pack(-side=>"left");
@@ -41,7 +38,7 @@ my $button_indir=$frame_indir->Button(-text=>"Open",-width=>25,-command=>sub{&se
 $button_indir->pack(-side=>"left");
 
 #threads
-my $frame_threads=$mw->Frame();
+my $frame_threads=$mainwindow->Frame();
 $frame_threads->pack(-expand=>1,-fill=>"both",-side=>"top");
 my $label_threads=$frame_threads->Label(-text=>"Bowtie mapping threads",-width=>80,-anchor=>"w",-font=>"Arial 11 bold",-foreground=>"black",-relief=>"groove");
 $label_threads->pack(-side=>"left");
@@ -50,7 +47,7 @@ my $entry_threads=$frame_threads->Entry(-textvariable=>\$threads,-width=>25,-fon
 $entry_threads->pack(-side=>"left");
 
 #cpreference
-my $frame_cp=$mw->Frame();
+my $frame_cp=$mainwindow->Frame();
 $frame_cp->pack(-expand=>1,-fill=>"both",-side=>"top");
 my $label_cp=$frame_cp->Label(-text=>"Path to indexed cp reference: ",-width=>80,-anchor=>"w",-font=>"Arial 11 bold",-foreground=>"black",-relief=>"groove");
 $label_cp->pack(-side=>"left");
@@ -60,7 +57,7 @@ $cpreference->configure(-command=>sub {&loadcpreference});
 my $cpref;
 
 #mtreference
-my $frame_mt=$mw->Frame();
+my $frame_mt=$mainwindow->Frame();
 $frame_mt->pack(-expand=>1,-fill=>"both",-side=>"top");
 my $label_mt=$frame_mt->Label(-text=>"Path to indexed mt reference: ",-width=>80,-anchor=>"w",-font=>"Arial 11 bold",-foreground=>"black",-relief=>"groove");
 $label_mt->pack(-side=>"left");
@@ -70,7 +67,7 @@ $mtreference->configure(-command=>sub {&loadmtreference});
 my $mtref;
 
 #organ
-my $frame_organ=$mw->Frame();
+my $frame_organ=$mainwindow->Frame();
 $frame_organ->pack(-expand=>1,-fill=>'both',-side=>'top');
 my $label_organ=$frame_organ->Label(-text=>"cp or mt that you want to assemble",-width=>80,-anchor=>"w",-font=>"Arial 11 bold",-foreground=>"black",-relief=>"groove");
 $label_organ->pack(-side=>"left");
@@ -79,7 +76,7 @@ my $entry_organ=$frame_organ->Entry(-textvariable=>\$organ,-width=>25,-font=>"Ar
 $entry_organ->pack(-side=>"left");
 
 #kmer
-my $frame_kmer=$mw->Frame();
+my $frame_kmer=$mainwindow->Frame();
 $frame_kmer->pack(-expand=>1,-fill=>'both',-side=>'top');
 my $label_kmer=$frame_kmer->Label(-text=>"Kmer values",-width=>80,-anchor=>"w",-font=>"Arial 11 bold",-foreground=>"black",-relief=>"groove");
 $label_kmer->pack(-side=>"left");
@@ -88,7 +85,7 @@ my $entry_kmer=$frame_kmer->Entry(-textvariable=>\$kmer,-width=>25,-font=>"Arial
 $entry_kmer->pack(-side=>"left");
 
 #ws
-my $frame_ws=$mw->Frame();
+my $frame_ws=$mainwindow->Frame();
 $frame_ws->pack(-expand=>1,-fill=>'both',-side=>'top');
 my $label_ws=$frame_ws->Label(-text=>"Wordsize value or specifically overlap value between two reads",-width=>80,-anchor=>"w",-font=>"Arial 11 bold",-foreground=>"black",-relief=>"groove");
 $label_ws->pack(-side=>"left");
@@ -97,7 +94,7 @@ my $entry_ws=$frame_ws->Entry(-textvariable=>\$ws,-width=>25,-font=>"Arial 11 bo
 $entry_ws->pack(-side=>"left");
 
 #number
-my $frame_number=$mw->Frame();
+my $frame_number=$mainwindow->Frame();
 $frame_number->pack(-expand=>1,-fill=>'both',-side=>'top');
 my $label_number=$frame_number->Label(-text=>"Step number of wordsize saved into memory",-width=>80,-anchor=>"w",-font=>"Arial 11 bold",-foreground=>"black",-relief=>"groove");
 $label_number->pack(-side=>"left");
@@ -106,7 +103,7 @@ my $entry_number=$frame_number->Entry(-textvariable=>\$number,-width=>25,-font=>
 $entry_number->pack(-side=>"left"); 
 
 #run
-my $frame_run=$mw->Frame();
+my $frame_run=$mainwindow->Frame();
 $frame_run->pack(-expand=>1,-fill=>'both',-side=>'top');
 my $label_run=$frame_run->Label(-text=>"(Optional) Runs for paired-end reads recruitment",-width=>80,-anchor=>"w",-font=>"Arial 11 bold",-foreground=>"black",-relief=>"groove");
 $label_run->pack(-side=>"left");
@@ -115,7 +112,7 @@ my $entry_run=$frame_run->Entry(-textvariable=>\$run,-width=>25,-font=>"Arial 11
 $entry_run->pack(-side=>"left");
 
 #quick
-my $frame_quick=$mw->Frame();
+my $frame_quick=$mainwindow->Frame();
 $frame_quick->pack(-expand=>1,-fill=>'both',-side=>'top');
 my $label_quick=$frame_quick->Label(-text=>"(Optional) Speed argument, (T)rue or F(alse)",-width=>80,-anchor=>"w",-font=>"Arial 11 bold",-foreground=>"black",-relief=>"groove");
 $label_quick->pack(-side=>"left");
@@ -124,7 +121,7 @@ my $entry_quick=$frame_quick->Entry(-textvariable=>\$quick,-width=>25,-font=>"Ar
 $entry_quick->pack(-side=>"left");
 
 #contact
-my $frame_contact=$mw->Frame();
+my $frame_contact=$mainwindow->Frame();
 $frame_contact->pack(-expand=>1,-fill=>"both",-side=>"top");
 my $label_contact=$frame_contact->Label(-text=>"Email",-width=>80,-anchor=>"w",-font=>"Arial 11 bold",-foreground=>"black",-relief=>"groove");
 $label_contact->pack(-side=>"left");
@@ -133,13 +130,10 @@ my $entry_contact=$frame_contact->Entry(-textvariable=>\$email,-width=>25,-font=
 $entry_contact->pack(-side=>"left");
 
 ##run and exit
-#my $button_run=$mw->Button(-text=>"Run...",-command=>sub {&run($indir,$threads,$cpref,$mtref,$organ,$kmer,$ws,$number,$run,$quick)});
+#my $button_run=$mainwindow->Button(-text=>"Run...",-command=>sub {&run($indir,$threads,$cpref,$mtref,$organ,$kmer,$ws,$number,$run,$quick)});
 #$button_run->pack(-side=>"left");
-#
-#my $button_exit=$mw->Button(-text=>"Exit...",-command=>sub {exit});
+#my $button_exit=$mainwindow->Button(-text=>"Exit...",-command=>sub {exit});
 #$button_exit->pack(-side=>"right");
-
-
 MainLoop;
 
 
@@ -157,7 +151,7 @@ sub help {
 }
 
 sub selectdirectory{
-	$indir=$mw->chooseDirectory();
+	$indir=$mainwindow->chooseDirectory();
 	if (defined $indir){
 		$label_indir->configure(-text=>$label_indir->cget("-text").$indir);
 	}
@@ -168,7 +162,7 @@ sub loadcpreference {
 				["Reference files",[qw/.fasta .fa/]],
 				["All files","*"],
 				);
-	my $filepath1=$mw->getOpenFile(-filetypes=>\@types) or return ();
+	my $filepath1=$mainwindow->getOpenFile(-filetypes=>\@types) or return ();
 	my $filepath2=substr($filepath1,0,rindex($filepath1,"."));
 	$cpref=$filepath2;
 	$label_cp->configure(-text=>$label_cp->cget("-text").$filepath2);
@@ -179,7 +173,7 @@ sub loadmtreference {
 				["Reference files",[qw/.fasta .fa/]],
 				["All files","*"],
 				);
-	my $filepath1=$mw->getOpenFile(-filetypes=>\@types) or return ();
+	my $filepath1=$mainwindow->getOpenFile(-filetypes=>\@types) or return ();
 	my $filepath2=substr($filepath1,0,rindex($filepath1,"."));
 	$mtref=$filepath2;
 	$label_mt->configure(-text=>$label_mt->cget("-text").$filepath2);
@@ -190,10 +184,10 @@ sub run {
 	use Tk::ExecuteCommand;
 	use Tk::widgets qw/LabEntry/;
 
-	my $mw=MainWindow->new;
-	my $ec=$mw->ExecuteCommand(-text=>"Execute",-entryWidth=>50,-height=>10,-label=>"",)->pack;
-	$ec->configure(-command=>"perl OGA.pl -i $indir -t $threads -c $cpref -m $mtref -p $organ -k $kmer -w $ws -s $number -r $run -q $quick");
-	my $button=$mw->Button(-text=>"Exit",-command=>sub{exit;})->pack;
+	my $mainwindow=MainWindow->new;
+	my $execute_command=$mainwindow->ExecuteCommand(-text=>"Execute",-entryWidth=>50,-height=>10,-label=>"",)->pack;
+	$execute_command->configure(-command=>"OGA.pl -i $indir -t $threads -c $cpref -m $mtref -p $organ -k $kmer -w $ws -s $number -r $run -q $quick");
+	my $button=$mainwindow->Button(-text=>"Exit",-command=>sub{exit;})->pack;
 	MainLoop;
 }
 
