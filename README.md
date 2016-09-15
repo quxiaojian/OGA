@@ -52,5 +52,9 @@ bowtie2-build mt_reference.fasta mt_reference
 ```
 OGA.pl -i Reads/ -t 8 -c Reference/cp_reference -m Reference/mt_reference -p cp -k 71,81,91,101,111,121 -w 121 -s 3
 ```
+or
+```
+OGA_gui.pl
+```
 **Third**, visualizing assembly graph using bandage.<br />
 
