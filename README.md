@@ -59,6 +59,7 @@ OGA.pl -i Reads/ -t 8 -c Reference/cp_reference -m Reference/mt_reference -p cp 
 or
 ```
 OGA_gui.pl
+![gui version of OGA](https://github.com/quxiaojian/OGA/blob/master/OGA_gui.png)
 ```
 **Third**, visualizing assembly graph using bandage.<br />
 
