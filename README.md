@@ -62,3 +62,14 @@ OGA_gui.pl
 
 **Third**, visualizing assembly graph using bandage.<br />
 
+##Similar scripts<br />
+[MITObim](https://github.com/chrishah/MITObim)<br />
+My script is same to MITObim in steps of mapping, assembly. But the step of extension is different. MITObim uses the reads mapping to extend, so it will be time-consuming. However, OGA uses reads recruitment based on overlap between contig end and raw reads to extend, it is quicker than reads mapping.
+
+[GetOrganelle](https://github.com/Kinggerm/GetOrganelle)<br />
+Thanks to Jianjun Jin for giving me good suggestions!
+
+[ARC](https://github.com/ibest/ARC)<br />
+[ORG.Asm](https://git.metabarcoding.org/org-asm/org-asm/wikis/home)<br />
+[NOVOPlasty](https://github.com/ndierckx/NOVOPlasty)<br />
+
