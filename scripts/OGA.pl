@@ -27,21 +27,19 @@ Email: quxiaojian\@mail.kib.ac.cn\n\n";
 my $cprefdir=substr ($cpref,0,rindex($cpref,"\/"));
 my $mtrefdir=substr ($mtref,0,rindex($mtref,"\/"));
 
-my $pattern1_1="_1.fq";
-my $pattern1_2="_1.fastq";
-my $pattern2_1="_2.fq";
-my $pattern2_2="_2.fastq";
+my $pattern1="_1.fq";
+my $pattern2="_2.fq";
 my (@filenames1,@filenames2);
 find(\&target1,$indir);
 sub target1{
-    if (/$pattern1_1/ or /$pattern1_2/){
+    if (/$pattern1/){
         push @filenames1,"$File::Find::name";
     }
     return;
 }
 find(\&target2,$indir);
 sub target2{
-    if (/$pattern2_1/ or /$pattern2_2/){
+    if (/$pattern2/){
         push @filenames2,"$File::Find::name";
     }
     return;
