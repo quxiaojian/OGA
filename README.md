@@ -39,7 +39,7 @@ Usage:
 ```
 
 ##Notes<br />
-(1) Your raw paired-end reads filename should be xxx_1.fq or xxx_1.fastq and xxx_2.fq or xxx_2.fastq, so this script do not need to revise.<br />
+(1) Your raw paired-end reads filename should be xxx_1.fq and xxx_2.fq, so this script do not need to revise.<br />
 (2) The format of "Sequence identifier" (first line of every four lines, beginning with @ symbol) for my own Illumina reads is as follows: @EAS139:136:FC706VJ:2:5:1000:12850 1:N:0 @EAS139:136:FC706VJ:2:5:1000:12850 2:N:0<br />
 (3) The wordsize value in OGA can be set by yourself. The best value maybe 80% of read length. You can try several times for you case.<br />
 (4) The step number of wordsize can also be set by yourself. Default value is 3. If your reads quality is not good, you can increase this value a little larger (4,5,6,...).
