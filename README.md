@@ -5,7 +5,6 @@ Copyright (C) 2016 Xiao-Jian Qu<br />
 quxiaojian@mail.kib.ac.cn<br />
 
 ##Prerequisites<br />
-GNU<br />
 Perl<br />
 Linux<br />
 
