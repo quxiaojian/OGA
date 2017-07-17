@@ -4,11 +4,14 @@ use Data::Dumper;
 
 print "Please input the blast database filename:";
 my $db=<STDIN>;
+chomp $db;
 
 print "Please input the minumum coverage value:";
 my $cov_min=<STDIN>;
+chomp $cov_min;
 print "Please input the maximum coverage value:";
 my $cov_max=<STDIN>;
+chomp $cov_min;
 
 open(my $ag_input,"<","assembly_graph.fastg");
 open(my $ag_output,">","assembly_graph.fasta");
