@@ -3,7 +3,7 @@ use strict;
 use Getopt::Long;
 use Time::HiRes qw(time);
 use File::Find;
-use Term::ProgressBar;
+#use Term::ProgressBar;
 use File::Copy;
 use Data::Dumper;
 
@@ -305,25 +305,25 @@ while (@filenames1 and @filenames2) {
 		my $now16=&gettime;
 		print "$now16 || Begin writing memory for $removed_fq1 and $removed_fq2!\n";
 
-		my $progress1=Term::ProgressBar->new({
-			count		=>	$seqcount,
-			name		=>	'Processing',
-			major_char	=>	'=',			# default symbol of major progress bar
-			minor_char	=>	'*',			# default symbol of minor progress bar
-			ETA			=>	'linear',		# evaluate remain time: undef (default) or linear
-			#term_width	=>	100,			# breadth of terminal, full screen (default)
-			#remove		=>	0,				# whether the progress bar disappear after the end of this script or not? 0 (default) or 1
-			#fh			=>	\*STDOUT,		# \*STDERR || \*STDOUT
-		});
-		$progress1->lbrack('[');				# left symbol of progress bar
-		$progress1->rbrack(']');				# right symbol of progress bar
-		$progress1->minor(0);				# close minor progress bar
-		#$progress1->max_update_rate(0.5);	# minumum gap time between two updates (s)
+#		my $progress1=Term::ProgressBar->new({
+#			count		=>	$seqcount,
+#			name		=>	'Processing',
+#			major_char	=>	'=',			# default symbol of major progress bar
+#			minor_char	=>	'*',			# default symbol of minor progress bar
+#			ETA			=>	'linear',		# evaluate remain time: undef (default) or linear
+#			#term_width	=>	100,			# breadth of terminal, full screen (default)
+#			#remove		=>	0,				# whether the progress bar disappear after the end of this script or not? 0 (default) or 1
+#			#fh			=>	\*STDOUT,		# \*STDERR || \*STDOUT
+#		});
+#		$progress1->lbrack('[');				# left symbol of progress bar
+#		$progress1->rbrack(']');				# right symbol of progress bar
+#		$progress1->minor(0);				# close minor progress bar
+#		#$progress1->max_update_rate(0.5);	# minumum gap time between two updates (s)
 
 		my ($header7,$sequence7,$plus7,$quality7,$header8,$sequence8,$plus8,$quality8);
 		my %fq;
 		my $cnt2=0;
-		my $update1=0;
+#		my $update1=0;
 
 		while (defined ($header7=<$input3>) && defined ($sequence7=<$input3>) && defined ($plus7=<$input3>) && defined ($quality7=<$input3>) && defined ($header8=<$input4>) && defined ($sequence8=<$input4>) && defined ($plus8=<$input4>) && defined ($quality8=<$input4>)) {
 			$header7=~ s/\n|\r//g;
@@ -339,9 +339,9 @@ while (@filenames1 and @filenames2) {
 			$fq{$header8}=$sequence8."\n".$plus8."\n".$quality8;
 
 			$cnt2++;
-			$update1=$progress1->update ($cnt2) if ($cnt2 > $update1);
+#			$update1=$progress1->update ($cnt2) if ($cnt2 > $update1);
 		}
-		$progress1->update ($seqcount) if ($seqcount >= $update1);
+#		$progress1->update ($seqcount) if ($seqcount >= $update1);
 
 		my $now17=&gettime;
 		print "$now17 || Finish writing memory for $cnt2 number of $removed_fq1 and $removed_fq2!\n";
@@ -367,20 +367,20 @@ while (@filenames1 and @filenames2) {
 			my $now18=&gettime;
 			print "$now18 || Begin $count writing memory in hash format for $removed_fq1 and $removed_fq2!\n";
 
-			my $progress2=Term::ProgressBar->new({
-				count		=>	$seqcount,
-				name		=>	'Processing',
-				major_char	=>	'=',			# default symbol of major progress bar
-				minor_char	=>	'*',			# default symbol of minor progress bar
-				ETA			=>	'linear',		# evaluate remain time: undef (default) or linear
-				#term_width	=>	100,			# breadth of terminal, full screen (default)
-				#remove		=>	0,				# whether the progress bar disappear after the end of this script or not? 0 (default) or 1
-				#fh			=>	\*STDOUT,		# \*STDERR || \*STDOUT
-			});
-			$progress2->lbrack('[');				# left symbol of progress bar
-			$progress2->rbrack(']');				# right symbol of progress bar
-			$progress2->minor(0);				# close minor progress bar
-			#$progress2->max_update_rate(0.5);	# minumum gap time between two updates (s)
+#			my $progress2=Term::ProgressBar->new({
+#				count		=>	$seqcount,
+#				name		=>	'Processing',
+#				major_char	=>	'=',			# default symbol of major progress bar
+#				minor_char	=>	'*',			# default symbol of minor progress bar
+#				ETA			=>	'linear',		# evaluate remain time: undef (default) or linear
+#				#term_width	=>	100,			# breadth of terminal, full screen (default)
+#				#remove		=>	0,				# whether the progress bar disappear after the end of this script or not? 0 (default) or 1
+#				#fh			=>	\*STDOUT,		# \*STDERR || \*STDOUT
+#			});
+#			$progress2->lbrack('[');				# left symbol of progress bar
+#			$progress2->rbrack(']');				# right symbol of progress bar
+#			$progress2->minor(0);				# close minor progress bar
+#			#$progress2->max_update_rate(0.5);	# minumum gap time between two updates (s)
 
 			seek ($input3,0,0);
 			seek ($input4,0,0);
@@ -388,7 +388,7 @@ while (@filenames1 and @filenames2) {
 			my ($header9,$sequence9,$plus9,$quality9,$header10,$sequence10,$plus10,$quality10);
 			my %prefix;
 			my $cnt3=0;
-			my $update2=0;
+#			my $update2=0;
 
 			if ($quick eq "T"){
 				@array3=<$input3>;
@@ -400,7 +400,7 @@ while (@filenames1 and @filenames2) {
 					push @{$prefix{substr($array4[$j+1],0,$ws)}},$array4[$j];
 
 					$cnt3++;
-					$update2=$progress2->update ($cnt3) if ($cnt3 > $update2);
+#					$update2=$progress2->update ($cnt3) if ($cnt3 > $update2);
 				}
 			}elsif($quick eq "F"){
 				while (defined ($header9=<$input3>) && defined ($sequence9=<$input3>) && defined ($plus9=<$input3>) && defined ($quality9=<$input3>) && defined ($header10=<$input4>) && defined ($sequence10=<$input4>) && defined ($plus10=<$input4>) && defined ($quality10=<$input4>)) {
@@ -417,10 +417,10 @@ while (@filenames1 and @filenames2) {
 					push @{$prefix{substr($sequence10,$m,$ws)}},$header10;
 
 					$cnt3++;
-					$update2=$progress2->update ($cnt3) if ($cnt3 > $update2);
+#					$update2=$progress2->update ($cnt3) if ($cnt3 > $update2);
 				}
 			}
-			$progress2->update ($seqcount) if ($seqcount >= $update2);
+#			$progress2->update ($seqcount) if ($seqcount >= $update2);
 			@array3=();
 			@array4=();
 
