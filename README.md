@@ -31,7 +31,7 @@ source ~/.bashrc
 chmod a+rwx OGA.pl
 ```
 
-You can test OGA.pl by type ~/PATH/TO/OGA.pl, which will show the usage information.<br />
+You can test OGA.pl by type OGA.pl, which will show the usage information.<br />
 ```
 Usage:
         OGA.pl -i -t -c -m -p -k -w -s [-r -q]
@@ -51,7 +51,7 @@ Usage:
         [-q -quick]          speed argument, T consume large memory and less time, F consume small memory and more time (default: F).
 ```
 
-##Test<br />
+##Test##<br />
 **First**, indexing reference sequence (cp and mt).<br />
 ```
 bowtie2-build cp.fasta cp
