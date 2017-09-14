@@ -86,12 +86,12 @@ Thanks to Jianjun Jin for giving me good suggestions!
 [NOVOPlasty](https://github.com/ndierckx/NOVOPlasty)<br />
 
 **Citation**<br />
-If you use OGA in you scientific research, please cite:
-OGA
-https://github.com/quxiaojian/OGA
-Bowtie2
-Langmead B, Salzberg S. Fast gapped-read alignment with Bowtie 2. Nature Methods. 2012, 9:357-359.
-SPAdes
-Bankevich A., Nurk S., Antipov D., Gurevich A., Dvorkin M., Kulikov A. S., Lesin V., Nikolenko S., Pham S., Prjibelski A., Pyshkin A., Sirotkin A., Vyahhi N., Tesler G., Alekseyev M. A., Pevzner P. A. SPAdes: A New Genome Assembly Algorithm and Its Applications to Single-Cell Sequencing. Journal of Computational Biology. 2012, 19(5):455-477.
-Bandage
-Wick R.R., Schultz M.B., Zobel J. & Holt K.E. Bandage: interactive visualisation of de novo genome assemblies. Bioinformatics. 2015, 31(20), 3350-3352.
+If you use OGA in you scientific research, please cite:<br />
+OGA<br />
+https://github.com/quxiaojian/OGA<br />
+Bowtie2<br />
+Langmead B, Salzberg S. Fast gapped-read alignment with Bowtie 2. Nature Methods. 2012, 9:357-359.<br />
+SPAdes<br />
+Bankevich A., Nurk S., Antipov D., Gurevich A., Dvorkin M., Kulikov A. S., Lesin V., Nikolenko S., Pham S., Prjibelski A., Pyshkin A., Sirotkin A., Vyahhi N., Tesler G., Alekseyev M. A., Pevzner P. A. SPAdes: A New Genome Assembly Algorithm and Its Applications to Single-Cell Sequencing. Journal of Computational Biology. 2012, 19(5):455-477.<br />
+Bandage<br />
+Wick R.R., Schultz M.B., Zobel J. & Holt K.E. Bandage: interactive visualisation of de novo genome assemblies. Bioinformatics. 2015, 31(20), 3350-3352.<br />
