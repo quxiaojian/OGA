@@ -14,7 +14,7 @@ OGA(Organelle Genome Assembly) is capable of assembling complete organelle genom
 ![OGA flowchart](https://github.com/quxiaojian/OGA/blob/master/OGA.png)
 
 **Preparations**<br />
-(1) download map software [Bowtie2](http://bowtie-bio.sourceforge.net/bowtie2/index.shtml), assemble softwares such as [spades](http://bioinf.spbau.ru/spades) or [velvet](https://github.com/dzerbino/velvet), and assembly graph visual software [bandage](https://github.com/rrwick/Bandage). And put all in PATH.<br />
+(1) download map software [Bowtie2](http://bowtie-bio.sourceforge.net/bowtie2/index.shtml), assemble softwares such as [spades](http://cab.spbu.ru/software/spades/) or [velvet](https://github.com/dzerbino/velvet), and assembly graph visual software [bandage](https://github.com/rrwick/Bandage). And put all in PATH.<br />
 ```
 vim ~/.bashrc
 export PATH=/home/xxx/bowtie2:$PATH
@@ -85,3 +85,13 @@ Thanks to Jianjun Jin for giving me good suggestions!
 [ORG.Asm](https://git.metabarcoding.org/org-asm/org-asm/wikis/home)<br />
 [NOVOPlasty](https://github.com/ndierckx/NOVOPlasty)<br />
 
+**Citation**<br />
+If you use OGA in you scientific research, please cite:
+OGA
+https://github.com/quxiaojian/OGA
+Bowtie2
+Langmead B, Salzberg S. Fast gapped-read alignment with Bowtie 2. Nature Methods. 2012, 9:357-359.
+SPAdes
+Bankevich A., Nurk S., Antipov D., Gurevich A., Dvorkin M., Kulikov A. S., Lesin V., Nikolenko S., Pham S., Prjibelski A., Pyshkin A., Sirotkin A., Vyahhi N., Tesler G., Alekseyev M. A., Pevzner P. A. SPAdes: A New Genome Assembly Algorithm and Its Applications to Single-Cell Sequencing. Journal of Computational Biology. 2012, 19(5):455-477.
+Bandage
+Wick R.R., Schultz M.B., Zobel J. & Holt K.E. Bandage: interactive visualisation of de novo genome assemblies. Bioinformatics. 2015, 31(20), 3350-3352.
