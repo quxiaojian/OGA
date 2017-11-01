@@ -48,8 +48,10 @@ sub target2{
 
 while (@filenames1 and @filenames2) {
 	my $forward=shift @filenames1;
-	my $name1=substr ($forward,0,rindex($forward,"\/"));#dirname
-	my $name2=substr ($forward,rindex($forward,"\/")+1,-5);#FC111
+	my $name1=substr ($forward,0,(rindex($forward,"\/")+1));#dirname
+	my $name2=$forward;
+	$name2=~ s/$name1//;
+	$name2=~ s/(\w+)_\d+.(fq.*)/$1/;
 	my $reverse=shift @filenames2;
 
 	my $remove;
@@ -134,8 +136,11 @@ while (@filenames1 and @filenames2) {
 		close $seed1;
 		close $seed2;
 
-		open (my $fq1,"<",$forward);
-		open (my $fq2,"<",$reverse);
+		my ($fq1,$fq2);
+		open ($fq1,"<",$forward) if ($forward!~ /.gz$/);
+		open ($fq1,"<:gzip",$forward) if ($forward=~ /.gz$/);
+		open ($fq2,"<",$reverse) if ($reverse!~ /.gz$/);
+		open ($fq2,"<:gzip",$reverse) if ($reverse=~ /.gz$/);
 		my ($header3,$sequence3,$plus3,$quality3,$header4,$sequence4,$plus4,$quality4);
 		my (%hashB,@array1,@array2);
 		my $count=0;
