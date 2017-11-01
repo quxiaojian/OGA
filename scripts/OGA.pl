@@ -48,10 +48,10 @@ sub target2{
 
 while (@filenames1 and @filenames2) {
 	my $forward=shift @filenames1;
-	my $name1=substr ($forward,0,(rindex($forward,"\/")+1));#dirname
+	my $name1=substr ($forward,0,rindex($forward,"\/"));#dirname
 	my $name2=$forward;
-	$name2=~ s/$name1//;
-	$name2=~ s/(\w+)_\d+.(fq.*)/$1/;
+	$name2=~ s/$name1\///;
+	$name2=~ s/(.+)_1.fq(.*)/$1/;
 	my $reverse=shift @filenames2;
 
 	my $remove;
