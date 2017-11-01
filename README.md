@@ -70,7 +70,7 @@ OGA_gui.pl
 (3) visualizing assembly graph using bandage.<br />
 
 **Notes**<br />
-(1) Your raw paired-end reads filename should be xxx_1.fq and xxx_2.fq, so this script do not need to revise.<br />
+(1) Your raw paired-end reads filename should be xxx_1.fq and xxx_2.fq, or xxx_1.fq.gz and xxx_2.fq.gz, so this script do not need to revise.<br />
 (2) The wordsize value (-w) in OGA can be set by yourself. The best value maybe 80% (-w 121) of read length (paired-end reads, 150 bp). If your reads quality is not good, you can decrease this value a little smaller (-w 101).<br />
 (3) The step number of wordsize (-s) can also be set by yourself. If your reads quality is not good, you can increase this value a little larger (-s 5).
 
