@@ -27,8 +27,8 @@ Email: quxiaojian\@mail.kib.ac.cn\n\n";
 my $cprefdir=substr ($cpref,0,rindex($cpref,"\/"));
 my $mtrefdir=substr ($mtref,0,rindex($mtref,"\/"));
 
-my $pattern1="_1.fq";
-my $pattern2="_2.fq";
+my $pattern1="_1.f";
+my $pattern2="_2.f";
 my (@filenames1,@filenames2);
 find(\&target1,$indir);
 sub target1{
@@ -51,7 +51,7 @@ while (@filenames1 and @filenames2) {
 	my $name1=substr ($forward,0,rindex($forward,"\/"));#dirname
 	my $name2=$forward;
 	$name2=~ s/$name1\///;
-	$name2=~ s/(.+)_1.fq(.*)/$1/;
+	$name2=~ s/(.+)_1.f(.*)/$1/;
 	my $reverse=shift @filenames2;
 
 	my $remove;
