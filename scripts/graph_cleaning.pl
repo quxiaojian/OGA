@@ -29,10 +29,20 @@ print $ag_output "\n";
 close $ag_input;
 close $ag_output;
 
-my $makeblastdb_command="makeblastdb.exe -in $db -hash_index -dbtype nucl";
-my $blastn_command="blastn.exe -task blastn -query assembly_graph.fasta -db $db -outfmt 6 -evalue 0.0001 -out blast";
-system($makeblastdb_command);
-system($blastn_command);
+my $osname=$^O;
+if ($osname eq "MSWin32") {
+	system("makeblastdb.exe -in $db -hash_index -dbtype nucl");
+	system("blastn.exe -task blastn -query assembly_graph.fasta -db $db -outfmt 6 -evalue 0.0001 -out blast");
+}elsif ($osname eq "cygwin") {
+	system("makeblastdb -in $db -hash_index -dbtype nucl");
+	system("blastn -task blastn -query assembly_graph.fasta -db $db -outfmt 6 -evalue 0.0001 -out blast");
+}elsif ($osname eq "linux") {
+	system("makeblastdb -in $db -hash_index -dbtype nucl");
+	system("blastn -task blastn -query assembly_graph.fasta -db $db -outfmt 6 -evalue 0.0001 -out blast");
+}elsif ($osname eq "darwin") {
+	system("makeblastdb -in $db -hash_index -dbtype nucl");
+	system("blastn -task blastn -query assembly_graph.fasta -db $db -outfmt 6 -evalue 0.0001 -out blast");
+}
 
 open(my $input1,"<","assembly_graph.fasta");
 open(my $input2,"<","blast");
