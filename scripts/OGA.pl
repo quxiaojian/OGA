@@ -9,19 +9,20 @@ use Data::Dumper;
 
 my $now1=time;
 my $global_options=&argument();
-my $indir=&default("Reads","indir");
+my $indir=&default("reads","indir");
 my $threads=&default("8","threads");
 my $cpref=&default("cp_reference","cpref");
 my $mtref=&default("mt_reference","mtref");
 my $organ=&default("cp","organelle");
-my $kmer=&default("71,81,91,101,111,121","kmer");
+my $exclude=&default("y","exclude");
+my $kmer=&default("81,101,121","kmer");
 my $ws=&default("121","wordsize");
 my $number=&default("3","stepnumber");
 my $run=&default("10000","run");
 my $quick=&default("F","quick");
 
-print "OGA.pl Organelle Genome Assembly
-Copyright (C) 2016 Xiao-Jian Qu
+print "OGA.pl Organelle Genome Assembler
+Copyright (C) 2018 Xiao-Jian Qu
 Email: quxiaojian\@mail.kib.ac.cn\n\n";
 
 my $cprefdir=substr ($cpref,0,rindex($cpref,"\/"));
@@ -48,7 +49,7 @@ sub target2{
 
 while (@filenames1 and @filenames2) {
 	my $forward=shift @filenames1;
-	my $name1=substr ($forward,0,rindex($forward,"\/"));#dirname
+	my $name1=substr ($forward,0,rindex($forward,"\/"));
 	my $name2=$forward;
 	$name2=~ s/$name1\///;
 	$name2=~ s/(.+)_1.f(.*)/$1/;
@@ -75,7 +76,7 @@ while (@filenames1 and @filenames2) {
 	########################################
 	##mapping
 	########################################
-	if (!-e $s_name1){
+	if (($organ eq "cp") and ($exclude eq "y")){
 		my $now3=&gettime;
 		print "$now3 || Begin mapping of $forward and $reverse for cp reads!\n";
 
@@ -88,8 +89,7 @@ while (@filenames1 and @filenames2) {
 
 		my $now4=&gettime;
 		print "$now4 || Finish mapping of $forward and $reverse for cp reads!\n";
-	}
-	if (!-e $s_name3){
+
 		my $now5=&gettime;
 		print "$now5 || Begin mapping of $forward and $reverse for mt reads!\n";
 
@@ -102,13 +102,86 @@ while (@filenames1 and @filenames2) {
 
 		my $now6=&gettime;
 		print "$now6 || Finish mapping of $forward and $reverse for mt reads!\n";
+	}elsif (($organ eq "cp") and ($exclude eq "n")){
+		my $now3=&gettime;
+		print "$now3 || Begin mapping of $forward and $reverse for cp reads!\n";
+
+		my $cp_command="bowtie2 -p $threads --very-fast-local "."-x $cpref "."-1 ".$forward." -2 ".$reverse." --al-conc $name1/seed_reads_cp"." -S $cprefdir/$name2\_cp.sam\n";
+		system ($cp_command);
+		my $rename_command1="mv $name1/seed_reads_cp.1 $name1/seed_reads_cp.1.fq";
+		my $rename_command2="mv $name1/seed_reads_cp.2 $name1/seed_reads_cp.2.fq";
+		system ($rename_command1);
+		system ($rename_command2);
+
+		my $now4=&gettime;
+		print "$now4 || Finish mapping of $forward and $reverse for cp reads!\n";
+
+		my $makefile_command3="touch $name1/seed_reads_mt.1.fq";
+		my $makefile_command4="touch $name1/seed_reads_mt.2.fq";
+		system ($makefile_command3);
+		system ($makefile_command4);
+	}if (($organ eq "mt") and ($exclude eq "y")){
+		my $now3=&gettime;
+		print "$now3 || Begin mapping of $forward and $reverse for mt reads!\n";
+
+		my $mt_command="bowtie2 -p $threads --very-fast-local "."-x $mtref "."-1 ".$forward." -2 ".$reverse." --al-conc $name1/seed_reads_mt"." -S $mtrefdir/$name2\_mt.sam\n";
+		system ($mt_command);
+		my $rename_command3="mv $name1/seed_reads_mt.1 $name1/seed_reads_mt.1.fq";
+		my $rename_command4="mv $name1/seed_reads_mt.2 $name1/seed_reads_mt.2.fq";
+		system ($rename_command3);
+		system ($rename_command4);
+
+		my $now4=&gettime;
+		print "$now4 || Finish mapping of $forward and $reverse for mt reads!\n";
+
+		my $now5=&gettime;
+		print "$now5 || Begin mapping of $forward and $reverse for cp reads!\n";
+
+		my $cp_command="bowtie2 -p $threads --very-fast-local "."-x $cpref "."-1 ".$forward." -2 ".$reverse." --al-conc $name1/seed_reads_cp"." -S $cprefdir/$name2\_cp.sam\n";
+		system ($cp_command);
+		my $rename_command1="mv $name1/seed_reads_cp.1 $name1/seed_reads_cp.1.fq";
+		my $rename_command2="mv $name1/seed_reads_cp.2 $name1/seed_reads_cp.2.fq";
+		system ($rename_command1);
+		system ($rename_command2);
+
+		my $now6=&gettime;
+		print "$now6 || Finish mapping of $forward and $reverse for cp reads!\n";
+	}elsif (($organ eq "mt") and ($exclude eq "n")){
+		my $now5=&gettime;
+		print "$now5 || Begin mapping of $forward and $reverse for mt reads!\n";
+
+		my $mt_command="bowtie2 -p $threads --very-fast-local "."-x $mtref "."-1 ".$forward." -2 ".$reverse." --al-conc $name1/seed_reads_mt"." -S $mtrefdir/$name2\_mt.sam\n";
+		system ($mt_command);
+		my $rename_command3="mv $name1/seed_reads_mt.1 $name1/seed_reads_mt.1.fq";
+		my $rename_command4="mv $name1/seed_reads_mt.2 $name1/seed_reads_mt.2.fq";
+		system ($rename_command3);
+		system ($rename_command4);
+
+		my $now6=&gettime;
+		print "$now6 || Finish mapping of $forward and $reverse for mt reads!\n";
+
+		my $makefile_command3="touch $name1/seed_reads_cp.1.fq";
+		my $makefile_command4="touch $name1/seed_reads_cp.2.fq";
+		system ($makefile_command3);
+		system ($makefile_command4);
+
+	}
+	if ($exclude eq "y") {
+		unlink("$cprefdir/$name2\_cp.sam");
+		unlink("$mtrefdir/$name2\_mt.sam");
+	}elsif ($exclude eq "n") {
+		if ($organ eq "cp") {
+			unlink("$cprefdir/$name2\_cp.sam");
+		}elsif ($organ eq "mt") {
+			unlink("$mtrefdir/$name2\_mt.sam");
+		}
 	}
 
 
 	########################################
 	##remove_mt_or_cp_from_fq
 	########################################
-	if (!-e $removed_fq1){
+	if ((-s $s_name3) != 0){
 		my $now7=&gettime;
 		print "$now7 || Begin removing $remove reads from $forward and $reverse!\n";
 
@@ -137,10 +210,16 @@ while (@filenames1 and @filenames2) {
 		close $seed2;
 
 		my ($fq1,$fq2);
-		open ($fq1,"<",$forward) if ($forward!~ /.gz$/);
-		open ($fq1,"gzip -dc $forward|") if ($forward=~ /.gz$/);
-		open ($fq2,"<",$reverse) if ($reverse!~ /.gz$/);
-		open ($fq2,"gzip -dc $reverse|") if ($reverse=~ /.gz$/);
+		if ($forward!~ /.gz$/) {
+			open ($fq1,"<",$forward);
+		}elsif ($forward=~ /.gz$/) {
+			open ($fq1,"gzip -dc $forward|");
+		}
+		if ($reverse!~ /.gz$/) {
+			open ($fq2,"<",$reverse);
+		}elsif ($reverse=~ /.gz$/) {
+			open ($fq2,"gzip -dc $reverse|");
+		}
 		my ($header3,$sequence3,$plus3,$quality3,$header4,$sequence4,$plus4,$quality4);
 		my (%hashB,@array1,@array2);
 		my $count=0;
@@ -209,54 +288,52 @@ while (@filenames1 and @filenames2) {
 
 		my $uniq_seed_name="$seed_name\_unique.fq";
 		system ("rm -rf $uniq_seed_name") if ((-s $uniq_seed_name)==0);
+
 		my $now8=&gettime;
 		print "$now8 || Finish removing $remove reads from $forward and $reverse!\n";
 	}
+	unlink("$s_name3");
+	unlink("$s_name4");
 
 
 	########################################
 	##first_assembly
 	########################################
+	my $now9=&gettime;
+	print "$now9 || Begin first assembling $s_name1 and $s_name2!\n";
+
 	my $spades_dir1="$name1/Spades_$organ\_1";
-	my $contig1="$spades_dir1/assembly_graph.fastg";
+	my $assembly_command1="spades.py --careful -1 ".$s_name1." -2 ".$s_name2." -k $kmer "."-o $spades_dir1\n";
+	system ($assembly_command1);
 
-	if (!-e $contig1){
-		my $now9=&gettime;
-		print "$now9 || Begin first assembling $s_name1 and $s_name2!\n";
-
-		my $assembly_command="spades.py --careful -1 ".$s_name1." -2 ".$s_name2." -k $kmer "."-o $spades_dir1\n";
-		system ($assembly_command);
-
-		my $now10=&gettime;
-		print "$now10 || Finish first assembling $s_name1 and $s_name2!\n";
-	}
+	my $now10=&gettime;
+	print "$now10 || Finish first assembling $s_name1 and $s_name2!\n";
 
 
 	########################################
 	##changing_format_of_fastg
 	########################################
+	my $now11=&gettime;
+	print "$now11 || Begin changing the format of assembly_graph.fastg!\n";
+
+	my $contig1="$spades_dir1/assembly_graph.fastg";
 	my $contig2="$spades_dir1/assembly_graph.fasta";
-	if (!-e $contig2){
-		my $now11=&gettime;
-		print "$now11 || Begin changing the format of assembly_graph.fastg!\n";
-
-		open(my $contiginput,"<",$contig1);
-		open(my $contigoutput,">",$contig2);
-		my $line=<$contiginput>;
-		print $contigoutput $line;
-		while ($line=<$contiginput>){
-			chomp $line;
-			if ($line=~ /^>/) {
-				print $contigoutput "\n".$line."\n";
-			}else{
-				print $contigoutput $line;
-			}
+	open(my $contiginput,"<",$contig1);
+	open(my $contigoutput,">",$contig2);
+	my $line=<$contiginput>;
+	print $contigoutput $line;
+	while ($line=<$contiginput>){
+		chomp $line;
+		if ($line=~ /^>/) {
+			print $contigoutput "\n".$line."\n";
+		}else{
+			print $contigoutput $line;
 		}
-		print $contigoutput "\n";
-
-		my $now12=&gettime;
-		print "$now12 || Finish changing the format of assembly_graph.fastg!\n";
 	}
+	print $contigoutput "\n";
+
+	my $now12=&gettime;
+	print "$now12 || Finish changing the format of assembly_graph.fastg!\n";
 
 
 	########################################
@@ -268,9 +345,9 @@ while (@filenames1 and @filenames2) {
 	my $now13=&gettime;
 	print "$now13 || Begin combing paired-end seed reads!\n";
 
-	open(my $input1,"<",$s_name1) or die $!;
-	open(my $input2,"<",$s_name2) or die $!;
-	open(my $output1,">",$seed_reads) or die $!;
+	open(my $input1,"<",$s_name1);
+	open(my $input2,"<",$s_name2);
+	open(my $output1,">",$seed_reads);
 	my ($header5,$header6,$sequence5,$sequence6,$plus5,$plus6,$quality5,$quality6);
 	while (defined($header5=<$input1>) && defined($sequence5=<$input1>) && defined($plus5=<$input1>) && defined($quality5=<$input1>) && defined($header6=<$input2>) && defined($sequence6=<$input2>) && defined($plus6=<$input2>) && defined($quality6=<$input2>)) {
 		$header5=~ s/ 1:N:0:\w+/ 1:N:0/g;
@@ -291,6 +368,8 @@ while (@filenames1 and @filenames2) {
 	close $input1;
 	close $input2;
 	close $output1;
+	unlink("$s_name1");
+	unlink("$s_name2");
 
 	my $now14=&gettime;
 	print "$now14 || Finish combing $cnt1 number of paired-end seed reads!\n";
@@ -303,10 +382,28 @@ while (@filenames1 and @filenames2) {
 	my $r_name2="$name1/recruited_reads_$organ.2.fq";
 	if (!-e $r_name1){
 		my $now15=&gettime;
-		print "$now15 || Begin paired end reads recruitment of $removed_fq1 and $removed_fq2!\n";
+		if ($exclude eq "y") {
+			print "$now15 || Begin paired end reads recruitment of $removed_fq1 and $removed_fq2!\n";
+		}elsif ($exclude eq "n") {
+			print "$now15 || Begin paired end reads recruitment of $forward and $reverse!\n";
+		}
 
-		open(my $input3,"<",$removed_fq1) or die $!;
-		open(my $input4,"<",$removed_fq2) or die $!;
+		my ($input3,$input4);
+		if ($exclude eq "y") {
+			open($input3,"<",$removed_fq1);
+			open($input4,"<",$removed_fq2);
+		}elsif ($exclude eq "n") {
+			if ($forward!~ /.gz$/) {
+				open ($input3,"<",$forward);
+			}elsif ($forward=~ /.gz$/) {
+				open ($input3,"gzip -dc $forward|");
+			}
+			if ($reverse!~ /.gz$/) {
+				open ($input4,"<",$reverse);
+			}elsif ($reverse=~ /.gz$/) {
+				open ($input4,"gzip -dc $reverse|");
+			}
+		}
 #		my $seqcount=0;
 #		while (<$input3>) {
 #			$seqcount++ if(/^@/);
@@ -314,7 +411,11 @@ while (@filenames1 and @filenames2) {
 #		seek($input3,0,0);
 
 		my $now16=&gettime;
-		print "$now16 || Begin writing memory for $removed_fq1 and $removed_fq2!\n";
+		if ($exclude eq "y") {
+			print "$now16 || Begin writing memory for $removed_fq1 and $removed_fq2!\n";
+		}elsif ($exclude eq "n") {
+			print "$now16 || Begin writing memory for $forward and $reverse!\n";
+		}
 
 #		my $progress1=Term::ProgressBar->new({
 #			count		=>	$seqcount,
@@ -357,7 +458,11 @@ while (@filenames1 and @filenames2) {
 #		$progress1->update ($seqcount) if ($seqcount >= $update1);
 
 		my $now17=&gettime;
-		print "$now17 || Finish writing memory for $cnt2 number of $removed_fq1 and $removed_fq2!\n";
+		if ($exclude eq "y") {
+			print "$now17 || Finish writing memory for $cnt2 number of $removed_fq1 and $removed_fq2!\n";
+		}elsif ($exclude eq "n") {
+			print "$now17 || Finish writing memory for $cnt2 number of $forward and $reverse!\n";
+		}
 
 
 		########################################
@@ -378,7 +483,11 @@ while (@filenames1 and @filenames2) {
 			##save_fq_into_memory_in_hash_format
 			########################################
 			my $now18=&gettime;
-			print "$now18 || Begin $count writing memory in hash format for $removed_fq1 and $removed_fq2!\n";
+			if ($exclude eq "y") {
+				print "$now18 || Begin $count writing memory in hash format for $removed_fq1 and $removed_fq2!\n";
+			}elsif ($exclude eq "n") {
+				print "$now18 || Begin $count writing memory in hash format for $forward and $reverse!\n";
+			}
 
 #			my $progress2=Term::ProgressBar->new({
 #				count		=>	$seqcount,
@@ -440,7 +549,11 @@ while (@filenames1 and @filenames2) {
 			@array4=();
 
 			my $now19=&gettime;
-			print "$now19 || Finish $count writing memory in hash format for $removed_fq1 and $removed_fq2!\n";
+			if ($exclude eq "y") {
+				print "$now19 || Finish $count writing memory in hash format for $removed_fq1 and $removed_fq2!\n";
+			}elsif ($exclude eq "n") {
+				print "$now19 || Finish $count writing memory in hash format for $forward and $reverse!\n";
+			}
 
 
 			########################################
@@ -453,8 +566,8 @@ while (@filenames1 and @filenames2) {
 			my $n;
 			my %hash0;
 			for ($n=1;$n<=$run;$n++) {
-				open(my $input5,"<",$seed) or die $!;
-				open(my $output2,">>","$name1/header") or die $!;
+				open(my $input5,"<",$seed);
+				open(my $output2,">>","$name1/header");
 				my ($header11,$sequence11);
 
 				while (defined ($header11=<$input5>) && defined ($sequence11=<$input5>)) {
@@ -471,8 +584,8 @@ while (@filenames1 and @filenames2) {
 				close $input5;
 				close $output2;
 
-				open (my $overlapped_read1,"<","$name1/header") or die $!;
-				open (my $overlapped_read2,">","$to_dir/read$n.fq") or die $!;
+				open (my $overlapped_read1,"<","$name1/header");
+				open (my $overlapped_read2,">","$to_dir/read$n.fq");
 				my (%hash1,@array5);
 				while (<$overlapped_read1>) {
 					$_=~ s/\n|\r//g;
@@ -502,13 +615,13 @@ while (@filenames1 and @filenames2) {
 			########################################
 			##combine_all_extended_reads_files
 			########################################
-			opendir(my $directory2,$to_dir) or die $!;
+			opendir(my $directory2,$to_dir);
 			my @dir=readdir $directory2;
 			close $directory2;
-			open (my $single_reads,">>","$name1/single_reads") or die $!;
+			open (my $single_reads,">>","$name1/single_reads");
 			foreach my $filename2 (@dir){
 				if ($filename2=~ m/fq$/g or $filename2=~ m/fastq$/g){
-					open (my $input6,"<","$to_dir/$filename2") or die $!;
+					open (my $input6,"<","$to_dir/$filename2");
 					while(<$input6>){
 						print $single_reads $_;
 					}
@@ -517,7 +630,7 @@ while (@filenames1 and @filenames2) {
 			}
 			close $single_reads;
 			@dir=();
-			#system("rm -rf $to_dir");
+			system("rm -rf $to_dir");
 
 			my $now22=&gettime;
 			print "$now22 || Finish $count recruiting overlapped reads!\n";
@@ -527,8 +640,6 @@ while (@filenames1 and @filenames2) {
 		close $input4;
 		my $now23=&gettime;
 		print "$now23 || Finish all recruiting overlapped reads!\n";
-
-
 
 
 		########################################
@@ -542,7 +653,7 @@ while (@filenames1 and @filenames2) {
 
 		open (my $input7,"<","$name1/single_reads");
 		open (my $input8,"<",$seed_reads);
-		open (my $output3,">>","$name1/single_reads.fq") or die $!;
+		open (my $output3,">>","$name1/single_reads.fq");
 		my ($header12,$sequence12,$plus12,$quality12);
 		my %hash2;
 		while (defined($header12=<$input7>) && defined($sequence12=<$input7>) && defined($plus12=<$input7>) && defined($quality12=<$input7>)){
@@ -565,9 +676,10 @@ while (@filenames1 and @filenames2) {
 		close $output3;
 		%hash2=();
 		unlink("$name1/single_reads");
+		unlink("$seed_reads");
 
-		open (my $input9,"<","$name1/single_reads.fq") or die $!;
-		open (my $output4,">","$name1/recruited_reads.fq") or die $!;
+		open (my $input9,"<","$name1/single_reads.fq");
+		open (my $output4,">","$name1/recruited_reads.fq");
 		my ($header13,$sequence13,$plus13,$quality13);
 		my (%hash3,%hash4,%hash5);
 		my $cnt4;
@@ -628,9 +740,9 @@ while (@filenames1 and @filenames2) {
 		my $now27=&gettime;
 		print "$now27 || Begin spliting PE reads into forward and reverse reads!\n";
 
-		open (my $input10,"<","$name1/recruited_reads.fq") or die $!;
-		open (my $output5,">",$r_name1) or die $!;
-		open (my $output6,">",$r_name2) or die $!;
+		open (my $input10,"<","$name1/recruited_reads.fq");
+		open (my $output5,">",$r_name1);
+		open (my $output6,">",$r_name2);
 		my $row;
 
 		while ($row=<$input10>){
@@ -680,26 +792,30 @@ while (@filenames1 and @filenames2) {
 		print "$space Seed reads plus recruited reads: ",$cnt1+$cnt5,"\n";
 
 		my $now29=&gettime;
-		print "$now29 || Finish paired end reads recruitment of $removed_fq1 and $removed_fq2!\n";
-}
+		if ($exclude eq "y") {
+			print "$now29 || Finish paired end reads recruitment of $removed_fq1 and $removed_fq2!\n";
+		}elsif ($exclude eq "n") {
+			print "$now29 || Finish paired end reads recruitment of $forward and $reverse!\n";
+		}
+	}
+	unlink("$removed_fq1");
+	unlink("$removed_fq2");
 
 
 	########################################
 	##second_assembly
 	########################################
+	my $now30=&gettime;
+	print "$now30 || Begin second assembling $r_name1 and $r_name2!\n";
+
 	my $spades_dir2="$name1/Spades_$organ\_2";
-	my $contig3="$spades_dir2/assembly_graph.fasta";
+	my $assembly_command2="spades.py --careful -1 ".$r_name1." -2 ".$r_name2." -k $kmer "."-o $spades_dir2\n";
+	system ($assembly_command2);
 
-	if (!-e $contig3){
-		my $now30=&gettime;
-		print "$now30 || Begin second assembling $r_name1 and $r_name2!\n";
-
-		my $assembly_command="spades.py --careful -1 ".$r_name1." -2 ".$r_name2." -k $kmer "."-o $spades_dir2\n";
-		system ($assembly_command);
-
-		my $now31=&gettime;
-		print "$now31 || Finish second assembling $r_name1 and $r_name2!\n";
-	}
+	my $now31=&gettime;
+	print "$now31 || Finish second assembling $r_name1 and $r_name2!\n";
+	unlink("$r_name1");
+	unlink("$r_name2");
 	my $now32=&gettime;
 	print "$now32 || Elapsed time for $forward and $reverse: ",time-$now1," seconds!\n";
 }
@@ -728,21 +844,24 @@ sub gettime {
 }
 
 sub argument{
-	my @options=("help|h","indir|i:s","thread|t:i","cpref|c:s","mtref|m:s","organelle|p:s","kmer|k:s","wordsize|w:i","stepnumber|s:i","run|r:i","quick|q:s");
+	my @options=("help|h","indir|i:s","thread|t:i","cpref|c:s","mtref|m:s","organelle|p:s","exclude|e:s","kmer|k:s","wordsize|w:i","stepnumber|s:i","run|r:i","quick|q:s");
 	my %options;
 	GetOptions(\%options,@options);
 	exec ("pod2usage $0") if ((keys %options)==0 or $options{'help'});
 	if(!exists $options{'indir'}){
-		print "***ERROR: No input dir for multiple subdirs containing paired-end reads are assigned!!!\n";
+		print "***ERROR: No input directory containing subdirectories with paired-end reads is assigned!!!\n";
 		exec ("pod2usage $0");
 	}elsif(!exists $options{'cpref'}){
-		print "***ERROR: No reference of indexed cp is assigned!!!\n";
+		print "***ERROR: No indexed cp reference is assigned!!!\n";
 		exec ("pod2usage $0");
 	}elsif(!exists $options{'mtref'}){
-		print "***ERROR: No reference of indexed mt is assigned!!!\n";
+		print "***ERROR: No indexed mt reference is assigned!!!\n";
 		exec ("pod2usage $0");
 	}elsif(!exists $options{'organelle'}){
 		print "***ERROR: No cp or mt is assigned!!!\n";
+		exec ("pod2usage $0");
+	}elsif(!exists $options{'exclude'}){
+		print "***ERROR: No Y or N is assigned!!!\n";
 		exec ("pod2usage $0");
 	}
 	return \%options;
@@ -779,11 +898,11 @@ __DATA__
 
 =head1 NAME
 
-    OGA.pl Organelle Genome Assembly
+    OGA.pl Organelle Genome Assembler
 
 =head1 COPYRIGHT
 
-    copyright (C) 2016 Xiao-Jian Qu
+    copyright (C) 2018 Xiao-Jian Qu
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -800,25 +919,23 @@ __DATA__
 
 =head1 DESCRIPTION
 
-    Organelle Genome Assembly
+    Organelle Genome Assembler
 
 =head1 SYNOPSIS
 
-    OGA.pl -i -t -c -m -p -k -w -s [-r -q]
-    Copyright (C) 2016 Xiao-Jian Qu
+    OGA.pl -i -t -c -m -p -e -k -w -s
+    Copyright (C) 2018 Xiao-Jian Qu
     Please contact me <quxiaojian@mail.kib.ac.cn>, if you have any bugs or questions.
 
     [-h -help]           help information.
-    [-i -indir]          input dir for multiple subdirs containing paired-end reads (default: Reads).
-    [-t -threads]        bowtie mapping threads (default: 8).
-    [-c -cpref]          reference of indexed cp (default: cp_reference).
-    [-m -mtref]          reference of indexed mt (default: mt_reference).
-    [-p -organelle]      cp or mt that you want to assemble (default: cp).
-    [-k -kmer]           kmer value (default: 71,81,91,101,111,121).
-    [-w -wordsize]       wordsize value or specifically overlap value between two reads (default: 121).
-    [-s -stepnumber]     step number of wordsize saved into memory (default: 3).
-    [-r -run]            runs for reads recruitment (default: 10000).
-    [-q -quick]          speed argument, T consume large memory and less time, F consume small memory and more time (default: F).
+    [-i -indir]          (default: reads) input directory containing subdirectories with paired-end reads.
+    [-t -threads]        (default: 8) bowtie mapping threads.
+    [-c -cpref]          (default: cp) indexed cp reference.
+    [-m -mtref]          (default: mt) indexed mt reference.
+    [-p -organelle]      (default: cp) cp or mt that you want to assemble.
+    [-e -exclude]        (default: y) y or n, exclude the influence of mt/cp reads on assembling cp/mt respectively.
+    [-k -kmer]           (default: 81,101,121) kmer value.
+    [-w -wordsize]       (default: 121) wordsize value or specifically overlap value between two reads.
+    [-s -stepnumber]     (default: 3) step number of wordsize saved into memory.
 
 =cut
-
