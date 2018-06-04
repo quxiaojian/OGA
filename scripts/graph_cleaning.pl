@@ -5,13 +5,17 @@ use Data::Dumper;
 
 my $global_options=&argument();
 my $fastg=&default("assembly_graph.fastg","fastg");
-my $db=&default("cp.fasta","db");
-my $cov_min=&default("100","min");
+my $db=&default("reference.fasta","db");
+my $cov_min=&default("50","min");
 my $cov_max=&default("10000","max");
 
+my $dirname=substr ($fastg,0,rindex($fastg,"\/"));
+my $prefix=$fastg;
+$prefix=~ s/$dirname\///;
+$prefix=~ s/(.+).fastg/$1/;
 
 open(my $ag_input,"<",$fastg);
-open(my $ag_output,">","assembly_graph.fasta");
+open(my $ag_output,">","$prefix.fasta");
 my $ag_row=<$ag_input>;
 print $ag_output $ag_row;
 while ($ag_row=<$ag_input>){
@@ -29,22 +33,22 @@ close $ag_output;
 my $osname=$^O;
 if ($osname eq "MSWin32") {
 	system("makeblastdb.exe -in $db -hash_index -dbtype nucl");
-	system("blastn.exe -task blastn -query assembly_graph.fasta -db $db -outfmt 6 -evalue 0.0001 -out blast");
+	system("blastn.exe -task blastn -query $prefix.fasta -db $db -outfmt 6 -evalue 0.0001 -out blast");
 }elsif ($osname eq "cygwin") {
 	system("makeblastdb -in $db -hash_index -dbtype nucl");
-	system("blastn -task blastn -query assembly_graph.fasta -db $db -outfmt 6 -evalue 0.0001 -out blast");
+	system("blastn -task blastn -query $prefix.fasta -db $db -outfmt 6 -evalue 0.0001 -out blast");
 }elsif ($osname eq "linux") {
 	system("makeblastdb -in $db -hash_index -dbtype nucl");
-	system("blastn -task blastn -query assembly_graph.fasta -db $db -outfmt 6 -evalue 0.0001 -out blast");
+	system("blastn -task blastn -query $prefix.fasta -db $db -outfmt 6 -evalue 0.0001 -out blast");
 }elsif ($osname eq "darwin") {
 	system("makeblastdb -in $db -hash_index -dbtype nucl");
-	system("blastn -task blastn -query assembly_graph.fasta -db $db -outfmt 6 -evalue 0.0001 -out blast");
+	system("blastn -task blastn -query $prefix.fasta -db $db -outfmt 6 -evalue 0.0001 -out blast");
 }
 
-open(my $input1,"<","assembly_graph.fasta");
+open(my $input1,"<","$prefix.fasta");
 open(my $input2,"<","blast");
-open(my $output1,">","assembly_graph1.fastg");
-open(my $output2,">","assembly_graph2.fastg");
+open(my $output1,">","$prefix\_filter_by_blast.fastg");
+open(my $output2,">","$prefix\_filter_by_coverage.fastg");
 
 my ($header1,$sequence);
 my (%hash1,%hash2,%hash3);
@@ -84,10 +88,19 @@ foreach my $key2 (keys %hash3){
 	print $output2 "$key2\n",$hash1{$key2},"\n";
 }
 close $output2;
-unlink("assembly_graph.fasta");
+unlink("$prefix.fasta");
 unlink("blast");
+unlink("$db.nhd");
+unlink("$db.nhi");
+unlink("$db.nhr");
+unlink("$db.nin");
+unlink("$db.nog");
+unlink("$db.nsd");
+unlink("$db.nsi");
+unlink("$db.nsq");
 
 
+##function
 sub argument{
 	my @options=("help|h","fastg|f:s","db|d:s","min|i:i","max|a:i");
 	my %options;
@@ -143,7 +156,7 @@ __DATA__
 
 =head1 DESCRIPTION
 
-    graph_cleaning
+    graph cleaning
 
 =head1 SYNOPSIS
 
@@ -153,8 +166,8 @@ __DATA__
 
     [-h -help]         help information.
     [-f -fastg]        required: (default: assembly_graph.fastg) spades assembly result.
-    [-d -db]           required: (default: cp.fasta) chloroplast reference in fasta format.
-    [-i -min]          required: (default: 100) minimum allowed coverage.
+    [-d -db]           required: (default: reference.fasta) reference sequence in fasta format.
+    [-i -min]          required: (default: 50) minimum allowed coverage.
     [-a -max]          required: (default: 10000) maximum allowed coverage.
 
 =cut
