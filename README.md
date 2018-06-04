@@ -73,6 +73,19 @@ OGA_gui.pl
 ![gui version of OGA](https://github.com/quxiaojian/OGA/blob/master/OGA_gui.png)
 
 (3) visualizing assembly graph using bandage.<br />
+The script graph_cleaning.pl can assist you filter above assembly result (assembly_graph.fastg) by blast and coverage.<br />
+```
+Usage:
+    graph_cleaning.pl -f -d -i -a
+    Copyright (C) 2018 Xiao-Jian Qu
+    Please contact <quxiaojian@mail.kib.ac.cn>, if you have any bugs or questions.
+
+    [-h -help]         help information.
+    [-f -fastg]        required: (default: assembly_graph.fastg) spades assembly result.
+    [-d -db]           required: (default: reference.fasta) reference sequence in fasta format.
+    [-i -min]          required: (default: 50) minimum allowed coverage.
+    [-a -max]          required: (default: 10000) maximum allowed coverage.
+```
 
 **Notes**<br />
 (1) Your raw paired-end reads filename should be xxx_1.fq and xxx_2.fq, or xxx_1.fq.gz and xxx_2.fq.gz, so this script do not need to revise.<br />
