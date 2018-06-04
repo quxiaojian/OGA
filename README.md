@@ -1,4 +1,4 @@
-**OGA--Organelle Genome Assembly**<br />
+**OGA--Organelle Genome Assembler**<br />
 Copyright (C) 2018 Xiao-Jian Qu<br />
 
 **Contact**<br />
@@ -12,7 +12,7 @@ Bandage<br />
 local BLAST+<br />
 
 **Introduction**<br />
-OGA(Organelle Genome Assembly) is capable of assembling complete organelle genome using distantly related species, or even organelle genes as reference. Four steps will be conducted to assemble organelle genome (plastome as example): (1) mapping raw reads to cp reference (optionally, excluding the influence of mt reads by removing mapped mt reads from raw reads); (2) first assembling mapped cp reads to contigs; (3) using contigs as seeds to recruit overlapped reads from raw reads (optionally, raw reads after removing mapped mt reads), then using recruited overlapped reads as new seeds, and iterating this step until no overlapped reads are recruited; (4) second assembling mapped plus recruited reads to scaffolds. In the end, you will get a complete plastome (mt genome) when library size is large enough and sequencing coverage is high enough. Specifically, many aspects, such as sequencing quality, repeats, etc could affect final assembly. This pipeline can be applied for assembling organelle genome from enriched chloroplast DNA and total genomic DNA.<br />
+OGA(Organelle Genome Assembler) is capable of assembling complete organelle genome using distantly related species, or even organelle genes as reference. Four steps will be conducted to assemble organelle genome (plastome as example): (1) mapping raw reads to cp reference (optionally, excluding the influence of mt reads by removing mapped mt reads from raw reads); (2) first assembling mapped cp reads to contigs; (3) using contigs as seeds to recruit overlapped reads from raw reads (optionally, raw reads after removing mapped mt reads), then using recruited overlapped reads as new seeds, and iterating this step until no overlapped reads are recruited; (4) second assembling mapped plus recruited reads to scaffolds. In the end, you will get a complete plastome (mt genome) when library size is large enough and sequencing coverage is high enough. Specifically, many aspects, such as sequencing quality, repeats, etc could affect final assembly. This pipeline can be applied for assembling organelle genome from enriched chloroplast DNA and total genomic DNA.<br />
 
 ![OGA flowchart](https://github.com/quxiaojian/OGA/blob/master/OGA.png)
 
@@ -82,11 +82,9 @@ OGA_gui.pl
 **Similar scripts**<br />
 [MITObim](https://github.com/chrishah/MITObim)<br />
 My script is same to MITObim in steps of mapping, assembly. But the step of extension is different. MITObim uses the reads mapping to extend, so it will be time-consuming. However, OGA uses reads recruitment based on overlap between contig end and raw reads to extend, it is quicker than reads mapping.
-
 [ARC](https://github.com/ibest/ARC)<br />
 [ORG.Asm](https://git.metabarcoding.org/org-asm/org-asm/wikis/home)<br />
 [NOVOPlasty](https://github.com/ndierckx/NOVOPlasty)<br />
-
 [GetOrganelle](https://github.com/Kinggerm/GetOrganelle)<br />
 Thanks to Jianjun Jin for giving me good suggestions!
 
