@@ -5,7 +5,7 @@ use Data::Dumper;
 
 my $mainwindow=MainWindow->new();
 $mainwindow->geometry("850x400");
-$mainwindow->title("OGA-Organelle Genome Assembly");
+$mainwindow->title("OGA-Organelle Genome Assembler");
 
 #create horizontal menubar
 my $menubar=$mainwindow->Frame(-relief=>"raised",-bd=>2);
@@ -74,6 +74,15 @@ $label_organ->pack(-side=>"left");
 my $organ="cp";
 my $entry_organ=$frame_organ->Entry(-textvariable=>\$organ,-width=>25,-font=>"Arial 11 bold",-background=>"Orange");
 $entry_organ->pack(-side=>"left");
+
+#exclude
+my $frame_exclude=$mainwindow->Frame();
+$frame_exclude->pack(-expand=>1,-fill=>'both',-side=>'top');
+my $label_exclude=$frame_exclude->Label(-text=>"y or n, exclude the influence of mt/cp reads",-width=>80,-anchor=>"w",-font=>"Arial 11 bold",-foreground=>"black",-relief=>"groove");
+$label_exclude->pack(-side=>"left");
+my $exclude="y";
+my $entry_exclude=$frame_exclude->Entry(-textvariable=>\$exclude,-width=>25,-font=>"Arial 11 bold",-background=>"Orange");
+$entry_exclude->pack(-side=>"left");
 
 #kmer
 my $frame_kmer=$mainwindow->Frame();
@@ -186,7 +195,7 @@ sub run {
 
 	my $mainwindow=MainWindow->new;
 	my $execute_command=$mainwindow->ExecuteCommand(-text=>"Execute",-entryWidth=>50,-height=>10,-label=>"",)->pack;
-	$execute_command->configure(-command=>"OGA.pl -i $indir -t $threads -c $cpref -m $mtref -p $organ -k $kmer -w $ws -s $number -r $run -q $quick");
+	$execute_command->configure(-command=>"OGA.pl -i $indir -t $threads -c $cpref -m $mtref -p $organ -e $exclude -k $kmer -w $ws -s $number -r $run -q $quick");
 	my $button=$mainwindow->Button(-text=>"Exit",-command=>sub{exit;})->pack;
 	MainLoop;
 }
