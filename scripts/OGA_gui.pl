@@ -177,11 +177,7 @@ sub run {
 
 	my $mainwindow=MainWindow->new;
 	my $execute_command=$mainwindow->ExecuteCommand(-text=>"Execute",-entryWidth=>50,-height=>10,-label=>"",)->pack;
-<<<<<<< HEAD
 	$execute_command->configure(-command=>"OGA.pl -i $indir -t $threads -c $cpref -m $mtref -p $organ -e $exclude -k $kmer -w $ws -s $number");
-=======
-	$execute_command->configure(-command=>"OGA.pl -i $indir -t $threads -c $cpref -m $mtref -p $organ -e $exclude -k $kmer -w $ws -s $number -r $run -q $quick");
->>>>>>> origin/master
 	my $button=$mainwindow->Button(-text=>"Exit",-command=>sub{exit;})->pack;
 	MainLoop;
 }
