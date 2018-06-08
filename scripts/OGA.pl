@@ -389,6 +389,7 @@ while (@filenames1 and @filenames2) {
 		}
 
 		my ($input3,$input4);
+		my ($uncompressed_forward,$uncompressed_reverse);
 		if ($exclude eq "y") {
 			open($input3,"<",$removed_fq1);
 			open($input4,"<",$removed_fq2);
@@ -396,22 +397,38 @@ while (@filenames1 and @filenames2) {
 			if ($forward!~ /.gz$/) {
 				open ($input3,"<",$forward);
 			}elsif ($forward=~ /.gz$/) {
+<<<<<<< HEAD
 				my $uncompressed_forward=$forward;
 				$uncompressed_forward=~ s/.gz$//g;
 				system("gzip -dc $forward > $uncompressed_forward");
 				open ($input3,"<",$uncompressed_forward);
 				unlink("$uncompressed_forward");
+=======
+				$uncompressed_forward=$forward;
+				$uncompressed_forward=~ s/.gz$//g;
+				system("gzip -dc $forward > $uncompressed_forward");
+				open ($input3,"<",$uncompressed_forward);
+>>>>>>> origin/master
 			}
 			if ($reverse!~ /.gz$/) {
 				open ($input4,"<",$reverse);
 			}elsif ($reverse=~ /.gz$/) {
+<<<<<<< HEAD
 				my $uncompressed_reverse=$reverse;
 				$uncompressed_reverse=~ s/.gz$//g;
 				system("gzip -dc $reverse > $uncompressed_reverse");
 				open ($input4,"<",$uncompressed_reverse);
 				unlink("$uncompressed_reverse");
+=======
+				$uncompressed_reverse=$reverse;
+				$uncompressed_reverse=~ s/.gz$//g;
+				system("gzip -dc $reverse > $uncompressed_reverse");
+				open ($input4,"<",$uncompressed_reverse);
+>>>>>>> origin/master
 			}
 		}
+		unlink("$uncompressed_forward");
+		unlink("$uncompressed_reverse");
 #		my $seqcount=0;
 #		while (<$input3>) {
 #			$seqcount++ if(/^@/);
