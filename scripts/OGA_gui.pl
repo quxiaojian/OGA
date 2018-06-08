@@ -5,7 +5,7 @@ use Data::Dumper;
 
 my $mainwindow=MainWindow->new();
 $mainwindow->geometry("850x400");
-$mainwindow->title("OGA-Organelle Genome Assembly");
+$mainwindow->title("OGA-Organelle Genome Assembler");
 
 #create horizontal menubar
 my $menubar=$mainwindow->Frame(-relief=>"raised",-bd=>2);
@@ -75,12 +75,21 @@ my $organ="cp";
 my $entry_organ=$frame_organ->Entry(-textvariable=>\$organ,-width=>25,-font=>"Arial 11 bold",-background=>"Orange");
 $entry_organ->pack(-side=>"left");
 
+#exclude
+my $frame_exclude=$mainwindow->Frame();
+$frame_exclude->pack(-expand=>1,-fill=>'both',-side=>'top');
+my $label_exclude=$frame_exclude->Label(-text=>"y or n, exclude the influence of mt/cp reads",-width=>80,-anchor=>"w",-font=>"Arial 11 bold",-foreground=>"black",-relief=>"groove");
+$label_exclude->pack(-side=>"left");
+my $exclude="y";
+my $entry_exclude=$frame_exclude->Entry(-textvariable=>\$exclude,-width=>25,-font=>"Arial 11 bold",-background=>"Orange");
+$entry_exclude->pack(-side=>"left");
+
 #kmer
 my $frame_kmer=$mainwindow->Frame();
 $frame_kmer->pack(-expand=>1,-fill=>'both',-side=>'top');
 my $label_kmer=$frame_kmer->Label(-text=>"Kmer values",-width=>80,-anchor=>"w",-font=>"Arial 11 bold",-foreground=>"black",-relief=>"groove");
 $label_kmer->pack(-side=>"left");
-my $kmer="71,81,91,101,111,121";
+my $kmer="81,101,121";
 my $entry_kmer=$frame_kmer->Entry(-textvariable=>\$kmer,-width=>25,-font=>"Arial 11 bold",-background=>"Orange");
 $entry_kmer->pack(-side=>"left");
 
@@ -101,24 +110,6 @@ $label_number->pack(-side=>"left");
 my $number=3;
 my $entry_number=$frame_number->Entry(-textvariable=>\$number,-width=>25,-font=>"Arial 11 bold",-background=>"Orange");
 $entry_number->pack(-side=>"left"); 
-
-#run
-my $frame_run=$mainwindow->Frame();
-$frame_run->pack(-expand=>1,-fill=>'both',-side=>'top');
-my $label_run=$frame_run->Label(-text=>"(Optional) Runs for paired-end reads recruitment",-width=>80,-anchor=>"w",-font=>"Arial 11 bold",-foreground=>"black",-relief=>"groove");
-$label_run->pack(-side=>"left");
-my $run=10000;
-my $entry_run=$frame_run->Entry(-textvariable=>\$run,-width=>25,-font=>"Arial 11 bold",-background=>"Orange");
-$entry_run->pack(-side=>"left");
-
-#quick
-my $frame_quick=$mainwindow->Frame();
-$frame_quick->pack(-expand=>1,-fill=>'both',-side=>'top');
-my $label_quick=$frame_quick->Label(-text=>"(Optional) Speed argument, (T)rue or F(alse)",-width=>80,-anchor=>"w",-font=>"Arial 11 bold",-foreground=>"black",-relief=>"groove");
-$label_quick->pack(-side=>"left");
-my $quick="F";
-my $entry_quick=$frame_quick->Entry(-textvariable=>\$quick,-width=>25,-font=>"Arial 11 bold",-background=>"Orange");
-$entry_quick->pack(-side=>"left");
 
 #contact
 my $frame_contact=$mainwindow->Frame();
@@ -186,7 +177,7 @@ sub run {
 
 	my $mainwindow=MainWindow->new;
 	my $execute_command=$mainwindow->ExecuteCommand(-text=>"Execute",-entryWidth=>50,-height=>10,-label=>"",)->pack;
-	$execute_command->configure(-command=>"OGA.pl -i $indir -t $threads -c $cpref -m $mtref -p $organ -k $kmer -w $ws -s $number -r $run -q $quick");
+	$execute_command->configure(-command=>"OGA.pl -i $indir -t $threads -c $cpref -m $mtref -p $organ -e $exclude -k $kmer -w $ws -s $number");
 	my $button=$mainwindow->Button(-text=>"Exit",-command=>sub{exit;})->pack;
 	MainLoop;
 }
