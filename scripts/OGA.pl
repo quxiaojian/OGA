@@ -396,12 +396,20 @@ while (@filenames1 and @filenames2) {
 			if ($forward!~ /.gz$/) {
 				open ($input3,"<",$forward);
 			}elsif ($forward=~ /.gz$/) {
-				open ($input3,"gzip -dc $forward|");
+				my $uncompressed_forward=$forward;
+				$uncompressed_forward=~ s/.gz$//g;
+				system("gzip -dc $forward > $uncompressed_forward");
+				open ($input3,"<",$uncompressed_forward);
+				unlink("$uncompressed_forward");
 			}
 			if ($reverse!~ /.gz$/) {
 				open ($input4,"<",$reverse);
 			}elsif ($reverse=~ /.gz$/) {
-				open ($input4,"gzip -dc $reverse|");
+				my $uncompressed_reverse=$reverse;
+				$uncompressed_reverse=~ s/.gz$//g;
+				system("gzip -dc $reverse > $uncompressed_reverse");
+				open ($input4,"<",$uncompressed_reverse);
+				unlink("$uncompressed_reverse");
 			}
 		}
 #		my $seqcount=0;
@@ -789,7 +797,7 @@ while (@filenames1 and @filenames2) {
 		print "$space Raw reads: $cnt2\n";
 		print "$space Seed reads: $cnt1\n";
 		print "$space Recruited reads: ",$cnt5,"\n";
-		print "$space Seed reads plus recruited reads: ",$cnt1+$cnt5,"\n";
+		#print "$space Seed reads plus recruited reads: ",$cnt1+$cnt5,"\n";
 
 		my $now29=&gettime;
 		if ($exclude eq "y") {
