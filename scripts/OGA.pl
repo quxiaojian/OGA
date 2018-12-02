@@ -199,8 +199,8 @@ while (@filenames1 and @filenames2) {
 		my $i=0;
 		while(defined ($header1=<$seed1>) && defined ($sequence1=<$seed1>) && defined ($plus1=<$seed1>) && defined ($quality1=<$seed1>) && defined ($header2=<$seed2>) && defined ($sequence2=<$seed2>) && defined ($plus2=<$seed2>) && defined ($quality2=<$seed2>)){
 			chomp ($header1,$sequence1,$plus1,$quality1,$header2,$sequence2,$plus2,$quality2);
-			$header1=~ s/ 1:N:0:\w+/ 1:N:0/g;
-			$header2=~ s/ 2:N:0:\w+/ 2:N:0/g;
+			$header1=~ s/ 1:N:0:.+/ 1:N:0/g;
+			$header2=~ s/ 2:N:0:.+/ 2:N:0/g;
 			$order{$header1}=$i++;
 			$order{$header2}=$i++;
 			$hashA{$header1}=$sequence1."\n".$plus1."\n".$quality1."\n";
@@ -226,8 +226,8 @@ while (@filenames1 and @filenames2) {
 		#print $log "Duplicated rows in files $seed_forward//$seed_reverse and $forward//$reverse!\n";
 		while(defined ($header3=<$fq1>) && defined ($sequence3=<$fq1>) && defined ($plus3=<$fq1>) && defined ($quality3=<$fq1>) && defined ($header4=<$fq2>) && defined ($sequence4=<$fq2>) && defined ($plus4=<$fq2>) && defined ($quality4=<$fq2>)){
 			chomp ($header3,$sequence3,$plus3,$quality3,$header4,$sequence4,$plus4,$quality4);
-			$header3=~ s/ 1:N:0:\w+/ 1:N:0/g;
-			$header4=~ s/ 2:N:0:\w+/ 2:N:0/g;
+			$header3=~ s/ 1:N:0:.+/ 1:N:0/g;
+			$header4=~ s/ 2:N:0:.+/ 2:N:0/g;
 			$hashB{$header3}=$sequence3."\n".$plus3."\n".$quality3."\n";
 			$hashB{$header4}=$sequence4."\n".$plus4."\n".$quality4."\n";
 			unless (defined $order{$header3} && defined $order{$header4}){
@@ -350,8 +350,8 @@ while (@filenames1 and @filenames2) {
 	open(my $output1,">",$seed_reads);
 	my ($header5,$header6,$sequence5,$sequence6,$plus5,$plus6,$quality5,$quality6);
 	while (defined($header5=<$input1>) && defined($sequence5=<$input1>) && defined($plus5=<$input1>) && defined($quality5=<$input1>) && defined($header6=<$input2>) && defined($sequence6=<$input2>) && defined($plus6=<$input2>) && defined($quality6=<$input2>)) {
-		$header5=~ s/ 1:N:0:\w+/ 1:N:0/g;
-		$header6=~ s/ 2:N:0:\w+/ 2:N:0/g;
+		$header5=~ s/ 1:N:0:.+/ 1:N:0/g;
+		$header6=~ s/ 2:N:0:.+/ 2:N:0/g;
 		$header5=~ s/\n|\r//g;
 		$sequence5=~ s/\n|\r//g;
 		$plus5=~ s/\n|\r//g;
@@ -446,8 +446,8 @@ while (@filenames1 and @filenames2) {
 #		my $update1=0;
 
 		while (defined ($header7=<$input3>) && defined ($sequence7=<$input3>) && defined ($plus7=<$input3>) && defined ($quality7=<$input3>) && defined ($header8=<$input4>) && defined ($sequence8=<$input4>) && defined ($plus8=<$input4>) && defined ($quality8=<$input4>)) {
-			$header7=~ s/ 1:N:0:\w+/ 1:N:0/g;
-			$header8=~ s/ 2:N:0:\w+/ 2:N:0/g;
+			$header7=~ s/ 1:N:0:.+/ 1:N:0/g;
+			$header8=~ s/ 2:N:0:.+/ 2:N:0/g;
 			$header7=~ s/\n|\r//g;
 			$sequence7=~ s/\n|\r//g;
 			$plus7=~ s/\n|\r//g;
@@ -534,8 +534,8 @@ while (@filenames1 and @filenames2) {
 #				}
 			}elsif($quick eq "F"){
 				while (defined ($header9=<$input3>) && defined ($sequence9=<$input3>) && defined ($plus9=<$input3>) && defined ($quality9=<$input3>) && defined ($header10=<$input4>) && defined ($sequence10=<$input4>) && defined ($plus10=<$input4>) && defined ($quality10=<$input4>)) {
-					$header9=~ s/ 1:N:0:\w+/ 1:N:0/g;
-					$header10=~ s/ 2:N:0:\w+/ 2:N:0/g;
+					$header9=~ s/ 1:N:0:.+/ 1:N:0/g;
+					$header10=~ s/ 2:N:0:.+/ 2:N:0/g;
 					$header9=~ s/\n|\r//g;
 					$sequence9=~ s/\n|\r//g;
 					$plus9=~ s/\n|\r//g;
@@ -579,8 +579,8 @@ while (@filenames1 and @filenames2) {
 				my ($header11,$sequence11);
 
 				while (defined ($header11=<$input5>) && defined ($sequence11=<$input5>)) {
-					$header11=~ s/ 1:N:0:\w+/ 1:N:0/g;
-					$header11=~ s/ 2:N:0:\w+/ 2:N:0/g;
+					$header11=~ s/ 1:N:0:.+/ 1:N:0/g;
+					$header11=~ s/ 2:N:0:.+/ 2:N:0/g;
 					$header11=~ s/\n|\r//g;
 					$sequence11=~ s/\n|\r//g;
 
@@ -665,8 +665,8 @@ while (@filenames1 and @filenames2) {
 		my ($header12,$sequence12,$plus12,$quality12);
 		my %hash2;
 		while (defined($header12=<$input7>) && defined($sequence12=<$input7>) && defined($plus12=<$input7>) && defined($quality12=<$input7>)){
-			$header12=~ s/ 1:N:0:\w+/ 1:N:0/g;
-			$header12=~ s/ 2:N:0:\w+/ 2:N:0/g;
+			$header12=~ s/ 1:N:0:.+/ 1:N:0/g;
+			$header12=~ s/ 2:N:0:.+/ 2:N:0/g;
 			$header12=~ s/\n|\r//g;
 			$sequence12=~ s/\n|\r//g;
 			$plus12=~ s/\n|\r//g;
@@ -693,8 +693,8 @@ while (@filenames1 and @filenames2) {
 		my $cnt4;
 
 		while (defined($header13=<$input9>) && defined($sequence13=<$input9>) && defined($plus13=<$input9>) && defined($quality13=<$input9>)){
-			$header13=~ s/ 1:N:0:\w+/ 1:N:0/g;
-			$header13=~ s/ 2:N:0:\w+/ 2:N:0/g;
+			$header13=~ s/ 1:N:0:.+/ 1:N:0/g;
+			$header13=~ s/ 2:N:0:.+/ 2:N:0/g;
 			$header13=~ s/\n|\r//g;
 			$hash3{substr($header13,0,-6)}++;
 			#$hash3{substr($header13,0,-1)}++;
