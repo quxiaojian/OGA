@@ -5,7 +5,7 @@ Copyright (C) 2018 Xiao-Jian Qu<br />
 quxiaojian@mail.kib.ac.cn<br />
 
 **Prerequisites**<br />
-Perl, Linux<br />
+Perl 5, Linux<br />
 Bowtie2<br />
 SPAdes<br />
 Bandage<br />
@@ -70,7 +70,7 @@ or
 ```
 OGA_gui.pl
 ```
-![gui version of OGA](https://github.com/quxiaojian/OGA/blob/master/OGA_gui.png)
+![update gui version of OGA](https://github.com/quxiaojian/OGA/blob/master/OGA_gui.png)
 
 (3) visualizing assembly graph using bandage.<br />
 The script graph_cleaning.pl can assist you filter above assembly result (assembly_graph.fastg) by blast and coverage.<br />
