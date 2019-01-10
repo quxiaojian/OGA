@@ -161,8 +161,8 @@ __DATA__
 =head1 SYNOPSIS
 
     graph_cleaning.pl -f -d -i -a
-    Copyright (C) 2018 Xiao-Jian Qu
-    Please contact <quxiaojian@mail.kib.ac.cn>, if you have any bugs or questions.
+    Copyright (C) 2019 Xiao-Jian Qu
+    Please contact <quxiaojian@sdnu.edu.cn>, if you have any bugs or questions.
 
     [-h -help]         help information.
     [-f -fastg]        required: (default: assembly_graph.fastg) spades assembly result.
