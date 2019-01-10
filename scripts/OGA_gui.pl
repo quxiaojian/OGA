@@ -116,7 +116,7 @@ my $frame_contact=$mainwindow->Frame();
 $frame_contact->pack(-expand=>1,-fill=>"both",-side=>"top");
 my $label_contact=$frame_contact->Label(-text=>"Email",-width=>80,-anchor=>"w",-font=>"Arial 11 bold",-foreground=>"black",-relief=>"groove");
 $label_contact->pack(-side=>"left");
-my $email="quxiaojian\@mail.kib.ac.cn";
+my $email="quxiaojian\@sdnu.edu.cn";
 my $entry_contact=$frame_contact->Entry(-textvariable=>\$email,-width=>25,-font=>"Arial 11 bold",-background=>"Orange");
 $entry_contact->pack(-side=>"left");
 
