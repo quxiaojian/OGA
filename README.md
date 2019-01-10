@@ -1,8 +1,8 @@
 **OGA--Organelle Genome Assembler**<br />
-Copyright (C) 2018 Xiao-Jian Qu<br />
+Copyright (C) 2019 Xiao-Jian Qu<br />
 
 **Contact**<br />
-quxiaojian@mail.kib.ac.cn<br />
+quxiaojian@sdnu.edu.cn<br />
 
 **Prerequisites**<br />
 Perl 5, Linux<br />
@@ -41,8 +41,8 @@ You can test OGA.pl by type OGA.pl, which will show the usage information.<br />
 ```
 Usage:
     OGA.pl -i -t -c -m -p -e -k -w -s
-    Copyright (C) 2018 Xiao-Jian Qu
-    Please contact me <quxiaojian@mail.kib.ac.cn>, if you have any bugs or questions.
+    Copyright (C) 2019 Xiao-Jian Qu
+    Please contact me <quxiaojian@sdnu.edu.cn>, if you have any bugs or questions.
 
     [-h -help]           help information.
     [-i -indir]          (default: reads) input directory containing subdirectories with paired-end reads.
@@ -77,8 +77,8 @@ The script graph_cleaning.pl can assist you filter above assembly result (assemb
 ```
 Usage:
     graph_cleaning.pl -f -d -i -a
-    Copyright (C) 2018 Xiao-Jian Qu
-    Please contact <quxiaojian@mail.kib.ac.cn>, if you have any bugs or questions.
+    Copyright (C) 2019 Xiao-Jian Qu
+    Please contact <quxiaojian@sdnu.edu.cn>, if you have any bugs or questions.
 
     [-h -help]         help information.
     [-f -fastg]        required: (default: assembly_graph.fastg) spades assembly result.
