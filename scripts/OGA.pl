@@ -22,8 +22,8 @@ my $run=&default("10000","run");
 my $quick=&default("F","quick");
 
 print "OGA.pl Organelle Genome Assembler
-Copyright (C) 2018 Xiao-Jian Qu
-Email: quxiaojian\@mail.kib.ac.cn\n\n";
+Copyright (C) 2019 Xiao-Jian Qu
+Email: quxiaojian\@sdnu.edu.cn\n\n";
 
 my $cprefdir=substr ($cpref,0,rindex($cpref,"\/"));
 my $mtrefdir=substr ($mtref,0,rindex($mtref,"\/"));
@@ -932,8 +932,8 @@ __DATA__
 =head1 SYNOPSIS
 
     OGA.pl -i -t -c -m -p -e -k -w -s
-    Copyright (C) 2018 Xiao-Jian Qu
-    Please contact me <quxiaojian@mail.kib.ac.cn>, if you have any bugs or questions.
+    Copyright (C) 2019 Xiao-Jian Qu
+    Please contact me <quxiaojian@sdnu.edu.cn>, if you have any bugs or questions.
 
     [-h -help]           help information.
     [-i -indir]          (default: reads) input directory containing subdirectories with paired-end reads.
