@@ -32,16 +32,16 @@ close $ag_output;
 
 my $osname=$^O;
 if ($osname eq "MSWin32") {
-	system("makeblastdb.exe -in $db -hash_index -dbtype nucl");
+	system("makeblastdb.exe -in $db -hash_index -dbtype nucl -blastdb_version 4");
 	system("blastn.exe -task blastn -query $prefix.fasta -db $db -outfmt 6 -evalue 0.0001 -out blast");
 }elsif ($osname eq "cygwin") {
-	system("makeblastdb -in $db -hash_index -dbtype nucl");
+	system("makeblastdb -in $db -hash_index -dbtype nucl -blastdb_version 4");
 	system("blastn -task blastn -query $prefix.fasta -db $db -outfmt 6 -evalue 0.0001 -out blast");
 }elsif ($osname eq "linux") {
-	system("makeblastdb -in $db -hash_index -dbtype nucl");
+	system("makeblastdb -in $db -hash_index -dbtype nucl -blastdb_version 4");
 	system("blastn -task blastn -query $prefix.fasta -db $db -outfmt 6 -evalue 0.0001 -out blast");
 }elsif ($osname eq "darwin") {
-	system("makeblastdb -in $db -hash_index -dbtype nucl");
+	system("makeblastdb -in $db -hash_index -dbtype nucl -blastdb_version 4");
 	system("blastn -task blastn -query $prefix.fasta -db $db -outfmt 6 -evalue 0.0001 -out blast");
 }
 
