@@ -852,7 +852,7 @@ sub gettime {
 }
 
 sub argument{
-	my @options=("help|h","indir|i:s","thread|t:i","cpref|c:s","mtref|m:s","organelle|p:s","exclude|e:s","kmer|k:s","wordsize|w:i","stepnumber|s:i","run|r:i","quick|q:s");
+	my @options=("help|h","indir|i:s","threads|t:i","cpref|c:s","mtref|m:s","organelle|p:s","exclude|e:s","kmer|k:s","wordsize|w:i","stepnumber|s:i","run|r:i","quick|q:s");
 	my %options;
 	GetOptions(\%options,@options);
 	exec ("pod2usage $0") if ((keys %options)==0 or $options{'help'});
